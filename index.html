@@ -10,7 +10,7 @@ body {
   color: #d6b3ff;
   text-align: center;
   font-family: Arial;
-  margin-top: 60px;
+  margin-top: 30px;
 }
 
 h1 {
@@ -82,10 +82,25 @@ button:hover {
 .saved span:hover {
   text-decoration: underline;
 }
+
+/* ADS BOX */
+.ad-box {
+  margin: 15px 0;
+  padding: 15px;
+  border: 1px dashed #444;
+  border-radius: 10px;
+  color: #888;
+  font-size: 12px;
+}
 </style>
 </head>
 
 <body>
+
+<!-- ADS TOP -->
+<div class="ad-box">
+  📢 Spazio pubblicitario (Google AdSense)
+</div>
 
 <div class="container">
   <h1>🎮 Nickname Generator PRO</h1>
@@ -100,6 +115,11 @@ button:hover {
   <h2 id="nickname"></h2>
 
   <div class="saved" id="lista"></div>
+</div>
+
+<!-- ADS BOTTOM -->
+<div class="ad-box">
+  📢 Spazio pubblicitario (Google AdSense)
 </div>
 
 <script>
@@ -164,9 +184,7 @@ function mostraSalvati() {
   salvati.forEach(nick => {
     let span = document.createElement("span");
     span.textContent = nick;
-
     span.onclick = () => navigator.clipboard.writeText(nick);
-
     lista.appendChild(span);
   });
 }
@@ -176,3 +194,4 @@ mostraSalvati();
 
 </body>
 </html>
+<a href="privacy.html" style="color:#bb66ff;">Privacy Policy</a>
