@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Nickname Generator PRO</title>
+
+<style>
+body {
+  background: linear-gradient(135deg, #0a0014, #1a0033);
+  color: #d6b3ff;
+  text-align: center;
+  font-family: Arial;
+  margin-top: 60px;
+}
+
+h1 {
+  font-size: 42px;
+  text-shadow: 0 0 15px #a020f0;
+}
+
+.container {
+  background: rgba(255,255,255,0.05);
+  padding: 40px;
+  border-radius: 20px;
+  display: inline-block;
+  box-shadow: 0 0 25px #6600cc;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+button {
+  background: #8000ff;
+  border: none;
+  padding: 12px 25px;
+  margin: 5px;
+  font-size: 16px;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #a020f0;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #a64dff;
+  transform: scale(1.05);
+}
+
+#nickname {
+  margin-top: 25px;
+  font-size: 32px;
+  color: white;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: 0.4s;
+  text-shadow: 0 0 20px #bb66ff;
+}
+
+#nickname.show {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.saved {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.saved span {
+  display: block;
+  margin: 5px;
+  cursor: pointer;
+  color: #bb66ff;
+}
+
+.saved span:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>🎮 Nickname Generator PRO</h1>
+
+  <input type="text" id="nomeUtente" placeholder="Nome (opzionale)">
+  <br>
+
+  <button onclick="genera()">Genera</button>
+  <button onclick="copia()">📋 Copia</button>
+  <button onclick="salva()">💾 Salva</button>
+
+  <h2 id="nickname"></h2>
+
+  <div class="saved" id="lista"></div>
+</div>
+
+<script>
+let parole1 = ["Shadow","Dark","Fire","Ice","Void","Night","Blood"];
+let parole2 = ["Killer","Sniper","Hunter","Dragon","Reaper","Ghost"];
+let extra = ["X","Pro","YT","HD","99","777"];
+
+let currentNickname = "";
+
+function playSound() {
+  let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
+  audio.play();
+}
+
+function genera() {
+  let n1 = parole1[Math.floor(Math.random() * parole1.length)];
+  let n2 = parole2[Math.floor(Math.random() * parole2.length)];
+  let n3 = extra[Math.floor(Math.random() * extra.length)];
+  let num = Math.floor(Math.random() * 100);
+
+  let nome = document.getElementById("nomeUtente").value.trim();
+
+  currentNickname = n1 + n2 + n3 + num;
+
+  if (nome !== "") {
+    currentNickname = nome + "_" + currentNickname;
+  }
+
+  let output = document.getElementById("nickname");
+  output.textContent = currentNickname;
+
+  output.classList.remove("show");
+  setTimeout(() => output.classList.add("show"), 50);
+
+  playSound();
+}
+
+function copia() {
+  if (currentNickname !== "") {
+    navigator.clipboard.writeText(currentNickname);
+    event.target.textContent = "✅ Copiato!";
+    setTimeout(() => event.target.textContent = "📋 Copia", 1500);
+  }
+}
+
+function salva() {
+  if (currentNickname === "") return;
+
+  let salvati = JSON.parse(localStorage.getItem("nicknames")) || [];
+  salvati.push(currentNickname);
+  localStorage.setItem("nicknames", JSON.stringify(salvati));
+
+  mostraSalvati();
+}
+
+function mostraSalvati() {
+  let salvati = JSON.parse(localStorage.getItem("nicknames")) || [];
+  let lista = document.getElementById("lista");
+
+  lista.innerHTML = "<h3>Salvati:</h3>";
+
+  salvati.forEach(nick => {
+    let span = document.createElement("span");
+    span.textContent = nick;
+
+    span.onclick = () => navigator.clipboard.writeText(nick);
+
+    lista.appendChild(span);
+  });
+}
+
+mostraSalvati();
+</script>
+
+</body>
+</html>
